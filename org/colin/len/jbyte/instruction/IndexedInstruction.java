@@ -70,11 +70,11 @@ public class IndexedInstruction extends Instruction {
                (opcode == Opcode.SIPUSH     || opcode == Opcode.LDC_W         ||//Constants
                 opcode == Opcode.LDC2_W)                                      ||//Constants
                (opcode == Opcode.GOTO       || opcode == Opcode.JSR)          ||//Control
-               (opcode >= Opcode.IFEQ      && opcode <= Opcode.IF_ACMPNE)     ||//Comparisons
+               (opcode >= Opcode.IFEQ       && opcode <= Opcode.IF_ACMPNE)    ||//Comparisons
                ((opcode >= Opcode.GETSTATIC && opcode <= Opcode.INVOKESTATIC) ||//References
                  opcode == Opcode.NEW       || opcode == Opcode.ANEWARRAY     ||//References
                  opcode == Opcode.CHECKCAST || opcode == Opcode.INSTANCEOF)   ||//References
-               (opcode == Opcode.IFNULL    || opcode == Opcode.IFNONNULL)       //Extended
+               (opcode == Opcode.IFNULL     || opcode == Opcode.IFNONNULL)      //Extended
               ) {
       dataOutputStream.writeByte(opcode);
       dataOutputStream.writeShort(index);
