@@ -21,10 +21,10 @@ public class IndexedInstruction extends Instruction {
       length = length + 2;
       index = dataInputStream.readUnsignedByte();
     } else if (
-               (opcode == Opcode.SIPUSH) ||                              //Constants
-               (opcode >= Opcode.IFEQ   && opcode <= Opcode.IF_ACMPNE) ||//Comparisons
-               (opcode == Opcode.GOTO   || opcode == Opcode.JSR) ||      //Control
-               (opcode == Opcode.IFNULL || opcode == Opcode.IFNONNULL)   //Extended
+               (opcode == Opcode.SIPUSH) ||                               //Constants
+               (opcode >= Opcode.IFEQ    && opcode <= Opcode.IF_ACMPNE) ||//Comparisons
+               (opcode == Opcode.GOTO    || opcode == Opcode.JSR) ||      //Control
+               (opcode == Opcode.IFNULL  || opcode == Opcode.IFNONNULL)   //Extended
               ) {
       length = length + 3;
       index = dataInputStream.readShort();

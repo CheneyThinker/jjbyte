@@ -6,8 +6,9 @@ import java.io.IOException;
 
 import org.colin.len.jbyte.fixed.Opcode;
 
-public class IndexedValueInstruction extends IndexedInstruction {
+public class IndexedValueInstruction extends Instruction {
 
+  private int index;
   private int value;
 
   public void adjust(DataInputStream dataInputStream, boolean wide) throws IOException {
@@ -67,6 +68,14 @@ public class IndexedValueInstruction extends IndexedInstruction {
     }
   }
 
+  public int getIndex() {
+    return index;
+  }
+
+  public void setIndex(int index) {
+    this.index = index;
+  }
+
   public int getValue() {
     return value;
   }
@@ -76,7 +85,7 @@ public class IndexedValueInstruction extends IndexedInstruction {
   }
 
   public String toString() {
-    return String.format("%s %d", super.toString(), value);
+    return String.format("%s %d %d", super.toString(), index, value);
   }
 
 }

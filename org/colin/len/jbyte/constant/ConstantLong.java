@@ -1,15 +1,15 @@
 package org.colin.len.jbyte.constant;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class ConstantLong extends Constant {
 
   private long bytes;
 
-  public ConstantLong(byte tag, DataInputStream dataInputStream) throws IOException {
-    super(tag);
-    setBytes(dataInputStream.readLong());
+  public ConstantLong(DataInputStream dataInputStream) throws IOException {
+    bytes = dataInputStream.readLong();
   }
 
   public long getBytes() {
@@ -20,11 +20,13 @@ public class ConstantLong extends Constant {
     this.bytes = bytes;
   }
 
+  public void dump(DataOutputStream dataOutputStream) throws IOException {
+    super.dump(dataOutputStream);
+    dataOutputStream.writeLong(bytes);
+  }
+
   public String toString() {
-    StringBuilder builder = new StringBuilder("ConstantLong");
-    builder.append("[").append(tag).append("]");
-    builder.append("(bytes = ").append(bytes).append(")");
-    return builder.toString();
+    return String.format("%s(%s)", super.toString(), String.valueOf(bytes));
   }
 
 }

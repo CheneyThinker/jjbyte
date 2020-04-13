@@ -1,6 +1,7 @@
 package org.colin.len.jbyte.constant;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class ConstantInvokeDynamic extends Constant {
@@ -8,10 +9,9 @@ public class ConstantInvokeDynamic extends Constant {
   private int bootstrapMethodAttrIndex;
   private int nameAndTypeIndex;
 
-  public ConstantInvokeDynamic(byte tag, DataInputStream dataInputStream) throws IOException {
-    super(tag);
-    setBootstrapMethodAttrIndex(dataInputStream.readShort());
-    setNameAndTypeIndex(dataInputStream.readShort());
+  public ConstantInvokeDynamic(DataInputStream dataInputStream) throws IOException {
+    bootstrapMethodAttrIndex = dataInputStream.readUnsignedShort();
+    nameAndTypeIndex = dataInputStream.readUnsignedShort();
   }
 
   public int getBootstrapMethodAttrIndex() {
@@ -30,12 +30,14 @@ public class ConstantInvokeDynamic extends Constant {
     this.nameAndTypeIndex = nameAndTypeIndex;
   }
 
+  public void dump(DataOutputStream dataOutputStream) throws IOException {
+    super.dump(dataOutputStream);
+    dataOutputStream.writeShort(bootstrapMethodAttrIndex);
+    dataOutputStream.writeShort(nameAndTypeIndex);
+  }
+
   public String toString() {
-    StringBuilder builder = new StringBuilder("ConstantInvokeDynamic");
-    builder.append("[").append(tag).append("]");
-    builder.append("(bootstrapMethodAttrIndex = ").append(bootstrapMethodAttrIndex);
-    builder.append(", nameAndTypeIndex = ").append(nameAndTypeIndex).append(")");
-    return builder.toString();
+    return String.format("%s(bootstrapMethodAttrIndex = %d, nameAndTypeIndex = %d)", super.toString(), bootstrapMethodAttrIndex, nameAndTypeIndex);
   }
 
 }

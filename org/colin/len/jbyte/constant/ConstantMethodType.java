@@ -1,15 +1,15 @@
 package org.colin.len.jbyte.constant;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class ConstantMethodType extends Constant {
 
   private int descriptorIndex;
 
-  public ConstantMethodType(byte tag, DataInputStream dataInputStream) throws IOException {
-    super(tag);
-    setDescriptorIndex(dataInputStream.readUnsignedShort());
+  public ConstantMethodType(DataInputStream dataInputStream) throws IOException {
+    descriptorIndex = dataInputStream.readUnsignedShort();
   }
 
   public int getDescriptorIndex() {
@@ -20,11 +20,13 @@ public class ConstantMethodType extends Constant {
     this.descriptorIndex = descriptorIndex;
   }
 
+  public void dump(DataOutputStream dataOutputStream) throws IOException {
+    super.dump(dataOutputStream);
+    dataOutputStream.writeShort(descriptorIndex);
+  }
+
   public String toString() {
-    StringBuilder builder = new StringBuilder("ConstantMethodType");
-    builder.append("[").append(tag).append("]");
-    builder.append("(descriptorIndex = ").append(descriptorIndex).append(")");
-    return builder.toString();
+    return String.format("%s(descriptorIndex = %d)", super.toString(), descriptorIndex);
   }
 
 }

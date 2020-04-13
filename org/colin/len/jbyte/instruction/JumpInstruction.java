@@ -42,13 +42,15 @@ public class JumpInstruction extends Instruction {
   }
 
   public void dump(DataOutputStream dataOutputStream) throws IOException {
+    int matchLength = getMatchs().length;
+    if (matchLength != getJumpOffsets().length) {
+      throw new JByteException(String.format("%s[matchs size(%d) != jumpOffsets size(%d)]", getName(), matchLength, getJumpOffsets().length));
+    }
     super.dump(dataOutputStream);
     for (int i = 0; i < padding; i++) {
       dataOutputStream.writeByte(0);
     }
     dataOutputStream.writeInt(defaultOffset);
-    matchs = matchs == null ? new int[0] : matchs;
-    int matchLength = matchs.length;
     switch (getOpcode()) {
     case Opcode.TABLESWITCH:
       int low = matchLength > 0 ? matchs[0] : 0;
@@ -89,7 +91,7 @@ public class JumpInstruction extends Instruction {
   }
 
   public int[] getMatchs() {
-    return matchs;
+    return matchs == null ? new int[0] : matchs;
   }
 
   public void setMatchs(int[] matchs) {
@@ -97,7 +99,7 @@ public class JumpInstruction extends Instruction {
   }
 
   public int[] getJumpOffsets() {
-    return jumpOffsets;
+    return jumpOffsets == null ? new int[0] : jumpOffsets;
   }
 
   public void setJumpOffsets(int[] jumpOffsets) {

@@ -1,6 +1,7 @@
 package org.colin.len.jbyte.constant;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class ConstantMethodHandle extends Constant {
@@ -8,10 +9,9 @@ public class ConstantMethodHandle extends Constant {
   private int referenceKind;
   private int referenceIndex;
 
-  public ConstantMethodHandle(byte tag, DataInputStream dataInputStream) throws IOException {
-    super(tag);
-    setReferenceKind(dataInputStream.readUnsignedByte());
-    setReferenceIndex(dataInputStream.readUnsignedShort());
+  public ConstantMethodHandle(DataInputStream dataInputStream) throws IOException {
+    referenceKind = dataInputStream.readUnsignedByte();
+    referenceIndex = dataInputStream.readUnsignedShort();
   }
 
   public int getReferenceKind() {
@@ -30,12 +30,14 @@ public class ConstantMethodHandle extends Constant {
     this.referenceIndex = referenceIndex;
   }
 
+  public void dump(DataOutputStream dataOutputStream) throws IOException {
+    super.dump(dataOutputStream);
+    dataOutputStream.writeByte(referenceKind);
+    dataOutputStream.writeShort(referenceIndex);
+  }
+
   public String toString() {
-    StringBuilder builder = new StringBuilder("ConstantMethodHandle");
-    builder.append("[").append(tag).append("]");
-    builder.append("(referenceKind = ").append(referenceKind);
-    builder.append(", referenceIndex = ").append(referenceIndex).append(")");
-    return builder.toString();
+    return String.format("%s(referenceKind = %d, referenceIndex = %d)", super.toString(), referenceKind, referenceIndex);
   }
 
 }

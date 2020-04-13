@@ -1,15 +1,15 @@
 package org.colin.len.jbyte.constant;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class ConstantString extends Constant {
 
   private int stringIndex;
 
-  public ConstantString(byte tag, DataInputStream dataInputStream) throws IOException {
-    super(tag);
-    setStringIndex(dataInputStream.readUnsignedShort());
+  public ConstantString(DataInputStream dataInputStream) throws IOException {
+    stringIndex = dataInputStream.readUnsignedShort();
   }
 
   public int getStringIndex() {
@@ -20,11 +20,13 @@ public class ConstantString extends Constant {
     this.stringIndex = stringIndex;
   }
 
+  public void dump(DataOutputStream dataOutputStream) throws IOException {
+    super.dump(dataOutputStream);
+    dataOutputStream.writeShort(stringIndex);
+  }
+
   public String toString() {
-    StringBuilder builder = new StringBuilder("ConstantString");
-    builder.append("[").append(tag).append("]");
-    builder.append("(stringIndex = ").append(stringIndex).append(")");
-    return builder.toString();
+    return String.format("%s(stringIndex = %d)", super.toString(), stringIndex);
   }
 
 }

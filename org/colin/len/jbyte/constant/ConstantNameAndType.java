@@ -1,6 +1,7 @@
 package org.colin.len.jbyte.constant;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class ConstantNameAndType extends Constant {
@@ -8,10 +9,9 @@ public class ConstantNameAndType extends Constant {
   private int nameIndex;
   private int descriptorIndex;
 
-  public ConstantNameAndType(byte tag, DataInputStream dataInputStream) throws IOException {
-    super(tag);
-    setNameIndex(dataInputStream.readUnsignedShort());
-    setDescriptorIndex(dataInputStream.readUnsignedShort());
+  public ConstantNameAndType(DataInputStream dataInputStream) throws IOException {
+    nameIndex = dataInputStream.readUnsignedShort();
+    descriptorIndex = dataInputStream.readUnsignedShort();
   }
 
   public int getNameIndex() {
@@ -30,12 +30,14 @@ public class ConstantNameAndType extends Constant {
     this.descriptorIndex = descriptorIndex;
   }
 
+  public void dump(DataOutputStream dataOutputStream) throws IOException {
+    super.dump(dataOutputStream);
+    dataOutputStream.writeShort(nameIndex);
+    dataOutputStream.writeShort(descriptorIndex);
+  }
+
   public String toString() {
-    StringBuilder builder = new StringBuilder("ConstantNameAndType");
-    builder.append("[").append(tag).append("]");
-    builder.append("(nameIndex = ").append(nameIndex);
-    builder.append(", descriptorIndex = ").append(descriptorIndex).append(")");
-    return builder.toString();
+    return String.format("%s(nameIndex = %d, descriptorIndex = %d)", super.toString(), nameIndex, descriptorIndex);
   }
 
 }

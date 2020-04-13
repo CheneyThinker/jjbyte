@@ -1,6 +1,7 @@
 package org.colin.len.jbyte.constant;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class ConstantFieldref extends Constant {
@@ -8,10 +9,9 @@ public class ConstantFieldref extends Constant {
   private int classIndex;
   private int nameAndTypeIndex;
 
-  public ConstantFieldref(byte tag, DataInputStream dataInputStream) throws IOException {
-    super(tag);
-    setClassIndex(dataInputStream.readUnsignedShort());
-    setNameAndTypeIndex(dataInputStream.readUnsignedShort());
+  public ConstantFieldref(DataInputStream dataInputStream) throws IOException {
+    classIndex = dataInputStream.readUnsignedShort();
+    nameAndTypeIndex = dataInputStream.readUnsignedShort();
   }
 
   public int getClassIndex() {
@@ -30,12 +30,14 @@ public class ConstantFieldref extends Constant {
     this.nameAndTypeIndex = nameAndTypeIndex;
   }
 
+  public void dump(DataOutputStream dataOutputStream) throws IOException {
+    super.dump(dataOutputStream);
+    dataOutputStream.writeShort(classIndex);
+    dataOutputStream.writeShort(nameAndTypeIndex);
+  }
+
   public String toString() {
-    StringBuilder builder = new StringBuilder("ConstantFieldref");
-    builder.append("[").append(tag).append("]");
-    builder.append("(classIndex = ").append(classIndex);
-    builder.append(", nameAndTypeIndex = ").append(nameAndTypeIndex).append(")");
-    return builder.toString();
+    return String.format("%s(classIndex = %d, nameAndTypeIndex = %d)", super.toString(), classIndex, nameAndTypeIndex);
   }
 
 }
